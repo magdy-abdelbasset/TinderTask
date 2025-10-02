@@ -1,0 +1,13 @@
+{
+	"servers": {
+		"my-mcp-server-cfafa7ae": {
+			"type": "stdio",
+			"command": "react-native-guide",
+			"args": [
+				"node",
+				"./build/index.js"
+			]
+		}
+	},
+	"inputs": []
+}

@@ -239,7 +239,7 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
                                 elevation: 15,
                             }}>
 
-                            <AntDesign name="reload" className="bolder"       style={{ transform: [{ scaleX: -1 }], direction: 'ltr' ,fontWeight: 'bolder'}} size={28} color="#f8ce13" />
+                            <AntDesign name="reload" className="bolder"       style={{ transform: [{ scaleX: -1 }], direction: 'ltr'}} size={28} color="#f8ce13" />
                         </View>
                     ))}
                     <View

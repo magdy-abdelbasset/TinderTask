@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import '../global.css';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { QueryProvider } from '@/providers/QueryProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -31,13 +32,15 @@ export default function RootLayout() {
   }, []);
 
   return (
+        <QueryProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ backgroundColor: 'white', flex: 1 }}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </View>
-    </ThemeProvider>
+        <View style={{ backgroundColor: 'white', flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style="auto" />
+        </View>
+      </ThemeProvider>
+    </QueryProvider>
   );
 }

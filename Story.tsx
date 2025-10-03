@@ -3,19 +3,16 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import React, { useRef, useState } from "react";
-import TabOfImage from "../atomic/Tab";
 
 import {
     Animated,
     Dimensions,
     Image,
     PanResponder,
+    Text,
     TouchableOpacity,
     View
 } from "react-native";
-import ButtonIcon from "../atomic/ButtonIcon";
-import NavigationHint from "../atomic/NavigationHint";
-import UserInfo from "../atomic/UserInfo";
 
 interface StoryProps {
     user: UserInterface;
@@ -106,7 +103,7 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
 
     return (
         <View
-            className="flex-1 flex flex-col justify-center items-between"
+            className="flex-1 flex-col justify-center items-between"
             style={{
                 width: screenWidth,
                 backgroundColor: 'white',
@@ -117,6 +114,7 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
                 className="flex-1 justify-center items-center"
                 style={{ overflow: 'visible' }} // Allow shadows to show outside
             >
+
                 <Animated.View
                     style={{
                         flex: 1,
@@ -145,7 +143,7 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
                             overflow: 'visible', // Allow shadows to show outside
                         }}
                     >
-                        {/* <ImageOfStore imageSource={user.images[currentImageIndex]} /> */}
+                        {/* Shadow container */}
                         <View
                             style={{
                                 flex: 1,
@@ -180,15 +178,35 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
                             </View>
                         </View>
 
-                        <Image source={{ uri: user.images[currentImageIndex]}}/>
+                        {/* Image indicators */}
                         <View className="absolute top-2 left-0 right-0 flex-row justify-center z-10">
                             {user.images.map((_, index) => (
-                                <TabOfImage key={index} index={index} active={index === currentImageIndex} width={screenWidth / user.images.length - 8} />
+                                <View
+                                    key={index}
+                                    className={`h-1 mx-1 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-black'
+                                        }`}
+                                    style={{
+                                        width: screenWidth / user.images.length - 8,
+                                    }}
+                                />
                             ))}
                         </View>
-                        <UserInfo user={user} />
-                        <NavigationHint direction="left" />
-                        <NavigationHint direction="right" />
+
+                        {/* User info overlay */}
+                        <View className="absolute bottom-12 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                            <Text className="text-white text-3xl font-bold mb-1">
+                                {user.name}, {user.age}
+                            </Text>
+                            {user.location && (
+                                <Text className="text-white/90 text-lg">
+                                    📍 {user.location}
+                                </Text>
+                            )}
+                        </View>
+
+                        {/* Navigation hints */}
+                        <View className="absolute top-0 left-0 w-1/2 h-full" />
+                        <View className="absolute top-0 right-0 w-1/2 h-full" />
                     </TouchableOpacity>
                 </Animated.View>
 
@@ -202,22 +220,105 @@ export default function Story({ user, onNextUser, onPrevUser, users, currentUser
                         overflow: 'visible', // Allow shadows to show outside
                     }}
                 >
-                    <ButtonIcon icon={
-                        <AntDesign name="reload" className="bolder" style={{ transform: [{ scaleX: -1 }], direction: 'ltr' }} size={28} color="#f8ce13" />
-                    } width={48} height={48} radius={24} />
-                    <ButtonIcon icon={
-                        <Entypo name="cross" size={54} color="#ef2e6c" />
-                    } width={64} height={64} radius={32} />
-                    <ButtonIcon icon={
-                        <AntDesign name="star" size={32} color="#0188f9" />
-                    } width={48} height={48} radius={24} />
-                    <ButtonIcon icon={
-                        <AntDesign name="heart" size={42} color="#57c851" />
-                    } width={64} height={64} radius={32} />
-                    <ButtonIcon icon={
-                        <EvilIcons name="sc-telegram" size={36} color="#0c88f5" />
-                    } width={48} height={48} radius={24} />
+                    {[1].map((_, index) => (
+                        <View
+                            className="items-center justify-center flex"
+                            key={index}
+                            style={{
+                                width: index % 2 === 0 ? 48 : 64,
+                                height: index % 2 === 0 ? 48 : 64,
+                                borderRadius: index % 2 === 0 ? 24 : 32,
+                                backgroundColor: 'white',
+                                marginHorizontal: 8, // More margin to accommodate shadow
+                                overflow: 'visible', // Allow shadows to show outside
+                                // iOS shadow - stronger and more spread out
+                                shadowColor: '#000000',
+                                shadowOffset: { width: 0, height: 8 },
+                                shadowOpacity: 0.4,
+                                shadowRadius: 12,
+                                elevation: 15,
+                            }}>
 
+                            <AntDesign name="reload" className="bolder"       style={{ transform: [{ scaleX: -1 }], direction: 'ltr'}} size={28} color="#f8ce13" />
+                        </View>
+                    ))}
+                    <View
+                        className="items-center justify-center flex"
+                        style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: 32,
+                            backgroundColor: 'white',
+                                marginHorizontal: 8, // More margin to accommodate shadow
+                                overflow: 'visible', // Allow shadows to show outside
+                                // iOS shadow - stronger and more spread out
+                                shadowColor: '#000000',
+                                shadowOffset: { width: 0, height: 8 },
+                                shadowOpacity: 0.4,
+                                shadowRadius: 12,
+                                elevation: 15,
+                            }}>
+
+                            <Entypo name="cross" size={54} color="#ef2e6c" />
+                        </View>
+                        <View
+                            className="items-center justify-center flex"
+                            style={{
+                                width:  48,
+                                height:48,
+                                borderRadius: 24 ,
+                                backgroundColor: 'white',
+                                marginHorizontal: 8, // More margin to accommodate shadow
+                                overflow: 'visible', // Allow shadows to show outside
+                                // iOS shadow - stronger and more spread out
+                                shadowColor: '#000000',
+                                shadowOffset: { width: 0, height: 8 },
+                                shadowOpacity: 0.4,
+                                shadowRadius: 12,
+                                elevation: 15,
+                            }}>
+
+                            <AntDesign name="star" size={24} color="#0188f9" />
+                        </View>
+                    <View
+                        className="items-center justify-center flex"
+                        style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: 32,
+                            backgroundColor: 'white',
+                                marginHorizontal: 8, // More margin to accommodate shadow
+                                overflow: 'visible', // Allow shadows to show outside
+                                // iOS shadow - stronger and more spread out
+                                shadowColor: '#000000',
+                                shadowOffset: { width: 0, height: 8 },
+                                shadowOpacity: 0.4,
+                                shadowRadius: 12,
+                                elevation: 15,
+                            }}>
+
+                            <AntDesign name="heart" size={38} color="#57c851" />
+                        </View>
+                    <View
+                        className="items-center justify-center flex"
+                        style={{
+
+                            width: 48,
+                            height: 48,
+                            borderRadius: 24,
+                            backgroundColor: 'white',
+                            marginHorizontal: 8, // More margin to accommodate shadow
+                            overflow: 'visible', // Allow shadows to show outside
+                            // iOS shadow - stronger and more spread out
+                            shadowColor: '#000000',
+                            shadowOffset: { width: 0, height: 8 },
+                            shadowOpacity: 0.4,
+                            shadowRadius: 12,
+                            elevation: 15,
+                        }}>
+
+                        <EvilIcons name="sc-telegram" size={34} color="#0c88f5" />
+                    </View>
                 </View>
 
             </View>

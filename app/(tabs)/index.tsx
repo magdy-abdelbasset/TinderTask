@@ -1,23 +1,15 @@
+import { QueryErrorBoundary } from '@/components/QueryErrorBoundary';
 import Story from '@/components/users/Story';
-import { demoUsers } from '@/data';
-import { UserInterface } from '@/types/User';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { useUsers } from '@/hooks/useUsers';
+import React, { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
-  const [users, setUsers] = useState<UserInterface[]>([]);
   const [currentUserIndex, setCurrentUserIndex] = useState(0);
-  useEffect(() => {
-    // Simulate fetching user data from an API
-    const fetchUserData = async () => {
-      setUsers(demoUsers);
-    };
-
-    fetchUserData();
-  }, []);
+  const { data: users, isLoading, error, isError, refetch } = useUsers();
 
   const handleNextUser = () => {
-    if (currentUserIndex < users.length - 1) {
+    if (users && currentUserIndex < users.length - 1) {
       setCurrentUserIndex(currentUserIndex + 1);
     }
   };
@@ -27,6 +19,33 @@ export default function HomeScreen() {
       setCurrentUserIndex(currentUserIndex - 1);
     }
   };
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#f10c51ff" />
+        <Text style={styles.loadingText}>Loading users...</Text>
+      </View>
+    );
+  }
+
+  if (isError && error) {
+    return (
+      <QueryErrorBoundary
+        error={error}
+        onRetry={() => refetch()}
+        title="Failed to load users"
+      />
+    );
+  }
+
+  if (!users || users.length === 0) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>No users found</Text>
+      </View>
+    );
+  }
 
   return (
     <Story
@@ -109,5 +128,35 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eff2fc',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#666',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#eff2fc',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#f10c51ff',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
   },
 });

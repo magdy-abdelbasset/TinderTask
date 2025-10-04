@@ -1,29 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
+import { sharedStyles } from '../../styles/sharedStyles';
 
 export default function ExploreScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Explore</Text>
-      <Text style={styles.description}>Find new people to connect with</Text>
+    <View style={sharedStyles.container}>
+      <Text style={sharedStyles.title}>🔍 Explore</Text>
+      <Text style={sharedStyles.subtitle}>Discover new people</Text>
+      
+      <View style={sharedStyles.content}>
+        <Text style={sharedStyles.contentText}>
+          Explore screen coming soon!
+        </Text>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-  },
-});

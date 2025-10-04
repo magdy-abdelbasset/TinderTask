@@ -1,18 +1,19 @@
-import { View } from "react-native";
+import { TouchableOpacity } from "react-native";
 interface ButtonIconProps {
     key?: string | number;
     width?: number;
     height?: number;
     radius?: number;
     icon: React.ReactNode;
+    className?: string;
     onPress?: () => void;
 }
 
-export default function ButtonIcon({ key, width, height, radius, icon, onPress }: ButtonIconProps) {
+export default function ButtonIcon({ key, width, height, radius, icon,className, onPress }: ButtonIconProps) {
     return (
 
-        <View
-            className="items-center justify-center flex"
+        <TouchableOpacity onPress={onPress}
+            className={`items-center justify-center flex ${className}`}
             key={key}
             style={{
                 width: width,
@@ -30,6 +31,6 @@ export default function ButtonIcon({ key, width, height, radius, icon, onPress }
             }}>
 
                 { icon }
-        </View>  
+        </TouchableOpacity>
     );
 }

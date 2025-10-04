@@ -1,29 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
+import { sharedStyles } from '../../styles/sharedStyles';
 
 export default function ProfileScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-      <Text style={styles.description}>Manage your profile and settings</Text>
+    <View style={sharedStyles.container}>
+      <Text style={sharedStyles.title}>👤 Profile</Text>
+      <Text style={sharedStyles.subtitle}>Your profile information</Text>
+      
+      <View style={sharedStyles.content}>
+        <Text style={sharedStyles.contentText}>
+          Profile screen coming soon!
+        </Text>
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-  },
-});

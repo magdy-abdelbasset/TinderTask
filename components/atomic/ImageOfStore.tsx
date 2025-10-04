@@ -1,31 +1,8 @@
-import { useState } from "react";
-import { Image, ImageSourcePropType, View } from "react-native";
+import { Image, View } from "react-native";
 
-interface ImageOfStoreProps {
-  imageSource: ImageSourcePropType | string;
-}
 
-export default function ImageOfStore({ imageSource }: ImageOfStoreProps) {
-  console.log('ImageOfStore - imageSource:', imageSource);
-  const [imageError, setImageError] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  const handleImageError = (error: any) => {
-    console.error('Image loading error:', error.nativeEvent);
-    console.error('Failed to load image:', imageSource);
-    setImageError(true);
-  };
-
-  const handleImageLoad = () => {
-    console.log('Image loaded successfully:', imageSource);
-    setImageLoaded(true);
-    setImageError(false);
-  };
-
-  // Fallback to local image if remote image fails
-  const getFallbackSource = () => {
-    return require('@/assets/images/users/user1-1.jpeg');
-  };
+export default function ImageOfStore({ imageUrl ,screenWidth}: { imageUrl: string ,screenWidth:number}) {
+  // console.log('ImageOfStore - imageSource:', imageUrl);
 
   return (
     <View
@@ -53,11 +30,12 @@ export default function ImageOfStore({ imageSource }: ImageOfStoreProps) {
       >
         <Image
           className="h-full rounded-b-3xl"
-          source={require(`@/assets/images/users/user5-1.jpeg`)}
+          source={{ uri: imageUrl }}
           style={{
-            width: "100%",
+            width: screenWidth,
             flex: 1,
           }}
+          resizeMode="cover"
         />
       </View>
     </View>
